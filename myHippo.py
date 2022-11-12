@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+import random
 
 class myHippo(nn.Module):
     def __init__(self, poolSize, poolDim):
@@ -46,6 +47,16 @@ class myHippo(nn.Module):
         self.memPool[newMemID] += x * (levelP + levelN)
         if(self.memPool[newMemID].abs().max() != 0):
             self.memPool[newMemID] /= self.memPool[newMemID].abs().max()
+    
+    def inferencer(self, x):
+        decide = random.randint(0, 1)
+        if decide == 0:
+            res = self.resonancer(x)
+            self.curiouser(x)
+        else:
+            self.curiouser(x)
+            res = self.resonancer(x)
+        return res
 
 myTestObj = myHippo(8, 16)
 print('myTestObj.memPool = ', myTestObj.memPool)
