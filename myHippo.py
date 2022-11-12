@@ -14,7 +14,7 @@ class myHippo(nn.Module):
     def resonancer(self, x):
         outputBuffer = torch.zeros(self.poolDim)
         for i in self.memPool:
-            simliar = F.cosine_similarity(x.view(1, self.poolDim), i.view(1, self.poolDim)) #Note for Bad Memory
+            simliar = F.cosine_similarity(x.view(1, self.poolDim), i.view(1, self.poolDim)) #Note for contrary Memory
             outputBuffer += simliar * i
             i += simliar * x
             if(i.abs().max() != 0):

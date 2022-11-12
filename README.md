@@ -10,7 +10,7 @@ Maybe useful in the future robotic technology.
 
 ### Resonancer
 
-Given an input signal, then found relative or simliar/constant memory from the historical experience, and enhance/weaken its memory, finally return its thought.
+Given an input signal, then found relative or simliar/contrary memory from the historical experience, and enhance/weaken its memory, finally return its thought.
 
 ### Curiouser
 
