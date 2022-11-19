@@ -23,28 +23,24 @@ class myHippo(nn.Module):
     
     def curiouser(self, x):
         newMemID = 0
-        levelP = None
-        levelN = None
+        levelP = 0
+        levelN = 0
         for i in range(len(self.memPool)):
             simliar = F.cosine_similarity(x.view(1, self.poolDim), self.memPool[i].view(1, self.poolDim))
             if simliar > 0: #Positive Memory
-                if levelP is None:
-                    levelP = simliar
-                else:
-                    levelP += simliar
-            else: #Negative Memory
-                if levelN is None:
-                    levelN = simliar
-                else:
-                    levelN += simliar
+                levelP += simliar
+            elif simliar <= 0: #Negative Memory
+                levelN += simliar
             if self.memPool[i].abs().sum() < self.memPool[newMemID].abs().sum(): #Found New Memory Index
                 newMemID = i
-        levelP = 1 / levelP
+        #levelP = 1 / levelP
         levelN = -1 * levelN
-        print('Curious level Positive: ', levelP)
+        print('Familiar level Positive: ', levelP)
         print('Curious level Negative: ', levelN)
+        levelFin = levelN - levelP
+        print('Curious level Final: ', levelFin)
         print('Choose new memory ID: ', newMemID)
-        self.memPool[newMemID] += x * (levelP + levelN)
+        self.memPool[newMemID] += x * levelFin
         if(self.memPool[newMemID].abs().max() != 0):
             self.memPool[newMemID] /= self.memPool[newMemID].abs().max()
     
